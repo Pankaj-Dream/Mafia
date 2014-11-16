@@ -21,9 +21,8 @@ public class ChatListAdapter extends FirebaseListAdapter<Chat> {
     // The username for this client. We use this to indicate which messages originated from this user
     private String username;
 
-    public ChatListAdapter(Query ref, Activity activity, int layout, String username) {
+    public ChatListAdapter(Query ref, Activity activity, int layout) {
         super(ref, Chat.class, layout, activity);
-        this.username = username;
     }
 
     /**
@@ -35,15 +34,18 @@ public class ChatListAdapter extends FirebaseListAdapter<Chat> {
      */
     @Override
     protected void populateView(View view, Chat chat) {
-        // Map a Chat object to an entry in our listview
+    	this.username = MainActivity.mUsername;
+    	// Map a Chat object to an entry in our listview
         String author = chat.getAuthor();
         TextView authorText = (TextView)view.findViewById(R.id.author);
         authorText.setText(author + ": ");
-        // If the message was sent by this user, color it differently
-        if (author.equals(username)) {
-            authorText.setTextColor(Color.RED);
-        } else {
-            authorText.setTextColor(Color.BLUE);
+        // If the message was sent by this user, color it differently 
+        if(author!=null){
+        	if (author.equals(username)) {
+        		authorText.setTextColor(Color.RED);
+        	} else {
+        		authorText.setTextColor(Color.BLUE);
+        	}
         }
         ((TextView)view.findViewById(R.id.message)).setText(chat.getMessage());
     }
